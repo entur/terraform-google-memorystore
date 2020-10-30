@@ -12,18 +12,15 @@ data "google_compute_network" "default-network" {
 module "memorystore" {
   source  = "terraform-google-modules/memorystore/google"
   version = "1.0.0"
-
-  name     = length(var.redis_instance_custom_name) > 0 ? var.redis_instance_custom_name : "${var.labels.app}-${var.kubernetes_namespace}-${random_id.suffix.hex}"
-  project = var.gcp_project
-
+  name               = length(var.redis_instance_custom_name) > 0 ? var.redis_instance_custom_name : "${var.labels.app}-${var.kubernetes_namespace}-${random_id.suffix.hex}"
+  project            = var.gcp_project
   location_id        = var.zone
-  authorized_network = "${data.google_compute_network.default-network.self_link}"
-
-  enable_apis = "${var.enable_apis}"
-
-  reserved_ip_range = var.reserved_ip_range
-
-  labels = var.labels
+  region             = var.region
+  authorized_network = data.google_compute_network.default-network.self_link
+  enable_apis        = var.enable_apis
+  reserved_ip_range  = var.reserved_ip_range
+  labels             = var.labels
+  memory_size_gb     = var.memory_size_gb
 }
 
 resource "random_id" "protector" {
