@@ -1,4 +1,4 @@
-# Terraform module(s) for creating Google Cloud Memorystore instanses following Entur's conventions
+# Terraform module(s) for creating Google Cloud Memorystore instances following Entur's conventions
 
 Modules for provisioning memorystore instances on Google Cloud Platform.
 

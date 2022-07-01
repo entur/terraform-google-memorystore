@@ -10,14 +10,12 @@ resource "google_redis_instance" "main" {
   project        = var.init.app.project_id
   tier           = local.tier
   memory_size_gb = var.memory_size_gb
-
-  region = var.region
-
-  connect_mode = local.connect_mode
+  region         = var.region
 
   redis_version = var.redis_version
   redis_configs = var.redis_configs
 
+  connect_mode       = local.connect_mode
   authorized_network = var.init.networks.vpc_id
   read_replicas_mode = local.read_replicas_mode
 
@@ -33,10 +31,8 @@ resource "google_redis_instance" "main" {
         nanos   = 0
       }
     }
-
   }
 }
-
 
 resource "kubernetes_config_map" "main_redis_connection" {
   metadata {
@@ -44,7 +40,6 @@ resource "kubernetes_config_map" "main_redis_connection" {
     namespace = var.init.app.name
     labels    = var.init.labels
   }
-
   data = {
     REDIS_HOST = google_redis_instance.main.host
     REDIS_PORT = google_redis_instance.main.port
