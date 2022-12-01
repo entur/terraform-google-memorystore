@@ -52,7 +52,7 @@ We welcome contributions to this repo. How to contribute:
 
 ### Versioning
 
-This repository is versioned. Please see GitHub´s [documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release) describing how to create a new release.
+Versioning and release workflows are automated using Release Please. See GitHub´s [documentation](https://github.com/googleapis/release-please#release-please).
 
 ### Tests
 

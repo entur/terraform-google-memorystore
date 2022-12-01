@@ -49,6 +49,8 @@ func TestTerraformCloudStorageIntegration(t *testing.T) {
 	// Run `terraform output` to get the values of an output variable.
 	output := terraform.OutputMap(t, terraformOptions, "instance")
 	instanceName := output["name"]
+	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
+	id := output["id"]
 
 	// Verify that instance name is as expected
 	assert.Equal(t, expectedName, instanceName)
@@ -62,10 +64,8 @@ func TestTerraformCloudStorageIntegration(t *testing.T) {
 	}
 	defer client.Close()
 
-	reqInstance := "projects/ent-tfmodules-dev/locations/europe-west1/instances/" + expectedName
-
 	req := &redispb.GetInstanceRequest{
-		Name: reqInstance,
+		Name: id,
 	}
 	resp, err := client.GetInstance(ctx, req)
 	if err != nil {
