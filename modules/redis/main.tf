@@ -1,8 +1,7 @@
 locals {
-  generation         = format("%03d", var.generation)
-  connect_mode       = "PRIVATE_SERVICE_ACCESS"
-  tier               = "STANDARD_HA"
-  read_replicas_mode = "READ_REPLICAS_DISABLED"
+  generation   = format("%03d", var.generation)
+  connect_mode = "PRIVATE_SERVICE_ACCESS"
+  tier         = "STANDARD_HA"
 }
 
 resource "google_redis_instance" "main" {
@@ -17,7 +16,8 @@ resource "google_redis_instance" "main" {
 
   connect_mode       = local.connect_mode
   authorized_network = var.init.networks.vpc_id
-  read_replicas_mode = local.read_replicas_mode
+  read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  replica_count      = var.replica_count
 
   labels = var.init.labels
 
@@ -41,7 +41,9 @@ resource "kubernetes_config_map" "main_redis_connection" {
     labels    = var.init.labels
   }
   data = {
-    REDIS_HOST = google_redis_instance.main.host
-    REDIS_PORT = google_redis_instance.main.port
+    REDIS_HOST      = google_redis_instance.main.host
+    REDIS_PORT      = google_redis_instance.main.port
+    REDIS_READ_HOST = google_redis_instance.main.read_endpoint
+    REDIS_READ_PORT = google_redis_instance.main.read_endpoint_port
   }
 }
