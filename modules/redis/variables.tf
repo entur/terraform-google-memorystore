@@ -91,9 +91,9 @@ variable "enable_replicas" {
 }
 
 variable "replica_count" {
-  description = "The number [1-5] of replica nodes. Defaults to 2."
+  description = "The number [1-5] of replica nodes. Defaults to 1."
   type        = number
-  default     = 2
+  default     = 1
   validation {
     condition     = var.replica_count >= 1 && var.replica_count <= 5
     error_message = "Memory size must be a whole number, between 1 and 5 inclusive."
