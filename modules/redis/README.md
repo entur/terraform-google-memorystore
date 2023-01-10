@@ -40,7 +40,7 @@ No modules.
 | <a name="input_redis_configs"></a> [redis\_configs](#input\_redis\_configs) | The redis configuration flags. | `map(string)` | <pre>{<br>  "activedefrag": "yes",<br>  "maxmemory-policy": "allkeys-lfu"<br>}</pre> | no |
 | <a name="input_redis_version"></a> [redis\_version](#input\_redis\_version) | The redis version in the form REDIS\_4\_0. | `string` | `"REDIS_4_0"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region of the redis instance. | `string` | `"europe-west1"` | no |
-| <a name="input_replica_count"></a> [replica\_count](#input\_replica\_count) | The number [1-5] of replica nodes. Defaults to 2. | `number` | `2` | no |
+| <a name="input_replica_count"></a> [replica\_count](#input\_replica\_count) | The number [1-5] of replica nodes. Defaults to 1. | `number` | `1` | no |
 
 ## Outputs
 
