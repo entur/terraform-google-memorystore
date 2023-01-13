@@ -17,7 +17,7 @@ resource "google_redis_instance" "main" {
   connect_mode       = local.connect_mode
   authorized_network = var.init.networks.vpc_id
   read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
-  replica_count      = var.replica_count
+  replica_count      = var.enable_replicas ? var.replica_count : null
 
   labels = var.init.labels
 
