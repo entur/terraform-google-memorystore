@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/entur/terraform-google-memorystore/compare/v0.2.0...v0.2.1) (2023-01-13)
+
+
+### Bug Fixes
+
+* set replica_count to null if enable_replicas false ([#11](https://github.com/entur/terraform-google-memorystore/issues/11)) ([42d1a71](https://github.com/entur/terraform-google-memorystore/commit/42d1a719ac533a1b17fc480b2ebee108ef413943))
+
 ## [0.2.0](https://github.com/entur/terraform-google-memorystore/compare/v0.1.0...v0.2.0) (2023-01-11)
 
 
