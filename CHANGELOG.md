@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/entur/terraform-google-memorystore/compare/v0.2.1...v0.2.2) (2023-02-09)
+
+
+### Bug Fixes
+
+* release please 0.2.2 ([#14](https://github.com/entur/terraform-google-memorystore/issues/14)) ([67b3aa0](https://github.com/entur/terraform-google-memorystore/commit/67b3aa0a7236aa5a2982a54acd98b41fce70f553))
+
 ## [0.2.1](https://github.com/entur/terraform-google-memorystore/compare/v0.2.0...v0.2.1) (2023-01-13)
 
 
