@@ -17,7 +17,7 @@ A Redis module that uses the [init module](https://github.com/entur/terraform-go
 
 ```
 module "redis" {
-  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v0.2.1"
+  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v0.2.2"
   ...
 }
 ```
