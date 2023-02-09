@@ -70,7 +70,7 @@ variable "redis_version" {
   type        = string
   default     = "REDIS_4_0"
   validation {
-    condition     = can(regex("^REDIS_[3-9]_[0-9]$", var.redis_version))
+    condition     = can(regex("^REDIS_[3-9]_[0-9X]$", var.redis_version))
     error_message = "Supports redis version 3.2 or higher, in the form REDIS_3_2."
   }
 }
