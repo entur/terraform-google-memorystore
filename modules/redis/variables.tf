@@ -17,6 +17,12 @@ variable "init" {
   })
 }
 
+variable "name_override" {
+  description = "Set to override the default redis name. Follows contentions; setting it to 'foo' in dev will result in the redis being named 'ent-gcs-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map."
+  type        = string
+  default     = null
+}
+
 variable "region" {
   description = "The region of the redis instance."
   type        = string

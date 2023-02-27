@@ -1,11 +1,14 @@
 locals {
-  generation   = format("%03d", var.generation)
-  connect_mode = "PRIVATE_SERVICE_ACCESS"
-  tier         = "STANDARD_HA"
+  generation      = format("%03d", var.generation)
+  connect_mode    = "PRIVATE_SERVICE_ACCESS"
+  tier            = "STANDARD_HA"
+  redis_shortname = var.name_override != null ? var.name_override : var.init.app.id
+  redis_name      = "mem-${local.redis_shortname}-${var.init.environment}-${local.generation}"
+  config_map_name = var.name_override != null ? "${var.init.app.name}-${var.name_override}-redis-connection" : "${var.init.app.name}-redis-connection"
 }
 
 resource "google_redis_instance" "main" {
-  name           = "mem-${var.init.app.id}-${var.init.environment}-${local.generation}"
+  name           = local.redis_name
   project        = var.init.app.project_id
   tier           = local.tier
   memory_size_gb = var.memory_size_gb
@@ -36,7 +39,7 @@ resource "google_redis_instance" "main" {
 
 resource "kubernetes_config_map" "main_redis_connection" {
   metadata {
-    name      = "${var.init.app.name}-redis-connection"
+    name      = local.config_map_name
     namespace = var.init.app.name
     labels    = var.init.labels
   }
