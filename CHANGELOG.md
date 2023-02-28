@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/entur/terraform-google-memorystore/compare/v0.2.2...v0.2.3) (2023-02-28)
+
+
+### Bug Fixes
+
+* ability to specify name_override ([#17](https://github.com/entur/terraform-google-memorystore/issues/17)) ([f391c36](https://github.com/entur/terraform-google-memorystore/commit/f391c360b459fe8d53e2eb5f42ff902b6ce065a3))
+
 ## [0.2.2](https://github.com/entur/terraform-google-memorystore/compare/v0.2.1...v0.2.2) (2023-02-09)
 
 
