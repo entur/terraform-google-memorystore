@@ -35,6 +35,13 @@ resource "google_redis_instance" "main" {
       }
     }
   }
+  # https://github.com/hashicorp/terraform-provider-google/issues/11871
+  # TODO: can be removed when the above issue is resolved
+  lifecycle {
+    ignore_changes = [
+      maintenance_schedule,
+    ]
+  }
 }
 
 resource "kubernetes_config_map" "main_redis_connection" {
