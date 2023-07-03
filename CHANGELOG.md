@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/entur/terraform-google-memorystore/compare/v0.2.3...v0.2.4) (2023-07-03)
+
+
+### Bug Fixes
+
+* quickfix by [@futu-waino](https://github.com/futu-waino), bug in tf ([#20](https://github.com/entur/terraform-google-memorystore/issues/20)) ([1575b49](https://github.com/entur/terraform-google-memorystore/commit/1575b49bef4a92b55995bc0e75b1f25772a6f687))
+
 ## [0.2.3](https://github.com/entur/terraform-google-memorystore/compare/v0.2.2...v0.2.3) (2023-02-28)
 
 
