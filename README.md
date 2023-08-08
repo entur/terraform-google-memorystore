@@ -56,19 +56,18 @@ Versioning and release workflows are automated using Release Please. See GitHubÂ
 
 ### Tests
 
-The test setup is inspired by [this Medium post](https://medium.com/@petriautero/automate-terraform-testing-with-github-actions-and-terratest-78d74331fdf8).
+We are using the blueprint-test module for testing. https://pkg.go.dev/github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test
 
 #### Local testing
 
 To run the tests locally, make sure the [prerequisites](#prerequisites) are in place. Make sure that you are running the go commands to test in the `tests` folder.
 
-The test files have [build tags](https://medium.com/@tharun208/build-tags-in-go-f21ccf44a1b8), these can be used to run only a subset of the tests, for example like this: `go test -v -tags=unit`.
+The test files have [build tags](https://medium.com/@tharun208/build-tags-in-go-f21ccf44a1b8), these can be used to run only a subset of the tests, for example like this: `go test -v -tags=integration`.
 
 #### Automatic testing
 
 Separate GitHub workflows is defined for testing the module:
 
 * [.github/workflows/pr-int-test-terraform.yaml](.github/workflows/pr-int-test-terraform.yaml)
-* [.github/workflows/pr-unit-test-terraform.yaml](.github/workflows/pr-unit-test-terraform.yaml)
 
 These run every time a change is pushed to GitHub, but filters in the workflows stops the tests from running when no changes is made in the modules or the workflows.

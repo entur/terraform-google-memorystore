@@ -21,6 +21,5 @@ module "redis" {
   # source     = "github.com/entur/terraform-google-memorystore//modules/redis?ref=vVERSION"
   source = "../../modules/redis"
   init   = module.init
-  #init       = var.init
   generation = random_integer.random_revision_generation.result
 }
