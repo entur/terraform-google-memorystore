@@ -39,8 +39,8 @@ jobs:
           cluster_name: ${{ secrets.CLUSTER_NAME }}
           location: ${{ secrets.CLUSTER_LOCATION }}
       - name: Download Go Modules
-        working-directory: tests
+        working-directory: test
         run: go mod download
       - name: Run Go Integration Tests
-        working-directory: tests
+        working-directory: test
         run: go test -tags=integration -timeout 30m
