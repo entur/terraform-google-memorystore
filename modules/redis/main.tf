@@ -50,3 +50,5 @@ resource "kubernetes_config_map" "main_redis_connection" {
     REDIS_READ_PORT = google_redis_instance.main.read_endpoint_port
   }
 }
+
+resource "null_resource" "testing" {}
