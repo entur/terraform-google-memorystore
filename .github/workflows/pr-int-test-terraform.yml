@@ -2,6 +2,9 @@ name: Terraform Integration Tests
 
 on:
   pull_request:
+    paths:
+      - 'modules/postgresql/**'
+      - 'test/**'
     branches:
       - master
     types:
