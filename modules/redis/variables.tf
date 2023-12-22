@@ -18,7 +18,7 @@ variable "init" {
 }
 
 variable "name_override" {
-  description = "Set to override the default redis name. Follows contentions; setting it to 'foo' in dev will result in the redis being named 'mem-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map."
+  description = "Set to override the default redis name. Follows contentions; setting it to 'foo' in dev will result in the redis being named 'mem-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map and secret."
   type        = string
   default     = null
 }
@@ -72,9 +72,9 @@ variable "memory_size_gb" {
 }
 
 variable "redis_version" {
-  description = "The redis version in the form REDIS_4_0."
+  description = "The redis version in the form REDIS_7_0."
   type        = string
-  default     = "REDIS_4_0"
+  default     = "REDIS_7_0"
   validation {
     condition     = can(regex("^REDIS_[3-9]_[0-9X]$", var.redis_version))
     error_message = "Supports redis version 3.2 or higher, in the form REDIS_3_2."
@@ -104,4 +104,22 @@ variable "replica_count" {
     condition     = var.replica_count >= 1 && var.replica_count <= 5
     error_message = "Memory size must be a whole number, between 1 and 5 inclusive."
   }
+}
+
+variable "secret_key_prefix" {
+  description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD and so on"
+  type        = string
+  default     = ""
+}
+
+variable "create_kubernetes_resources" {
+  description = "Optionally disables creating k8s resources -redis-connection and -redis-secret. Can be used to avoid overwriting existing resources on database creation."
+  type        = bool
+  default     = true
+}
+
+variable "add_redis_secret_manager_credentials" {
+  description = "Set to false to not store redis credentials in secret manager"
+  type        = bool
+  default     = true
 }

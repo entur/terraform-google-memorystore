@@ -4,7 +4,7 @@ locals {
   tier            = "STANDARD_HA"
   redis_shortname = var.name_override != null ? var.name_override : var.init.app.id
   redis_name      = "mem-${local.redis_shortname}-${var.init.environment}-${local.generation}"
-  config_map_name = var.name_override != null ? "${var.init.app.name}-${var.name_override}-redis-connection" : "${var.init.app.name}-redis-connection"
+  kubernetes_name = var.name_override != null ? "${var.init.app.name}-${var.name_override}" : var.init.app.name
 }
 
 resource "google_redis_instance" "main" {
@@ -19,6 +19,7 @@ resource "google_redis_instance" "main" {
 
   connect_mode       = local.connect_mode
   authorized_network = var.init.networks.vpc_id
+  auth_enabled       = true
   read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
   replica_count      = var.enable_replicas ? var.replica_count : null
 
@@ -37,16 +38,55 @@ resource "google_redis_instance" "main" {
   }
 }
 
-resource "kubernetes_config_map" "main_redis_connection" {
-  metadata {
-    name      = local.config_map_name
-    namespace = var.init.app.name
-    labels    = var.init.labels
-  }
-  data = {
+locals {
+  connection = {
     REDIS_HOST      = google_redis_instance.main.host
     REDIS_PORT      = google_redis_instance.main.port
     REDIS_READ_HOST = google_redis_instance.main.read_endpoint
     REDIS_READ_PORT = google_redis_instance.main.read_endpoint_port
   }
+  secret = {
+    REDIS_PASSWORD = google_redis_instance.main.auth_string
+  }
+  credentials = merge(local.connection, local.secret)
+}
+
+resource "kubernetes_config_map" "main_redis_connection" {
+  count = var.create_kubernetes_resources ? 1 : 0
+  metadata {
+    name      = "${local.kubernetes_name}-redis-connection"
+    namespace = var.init.app.name
+    labels    = var.init.labels
+  }
+  data = local.connection
+}
+
+resource "kubernetes_secret" "main_redis_secret" {
+  count = var.create_kubernetes_resources ? 1 : 0
+  metadata {
+    name      = "${local.kubernetes_name}-redis-secret"
+    namespace = var.init.app.name
+    labels    = var.init.labels
+  }
+  data = local.secret
+}
+
+resource "google_secret_manager_secret" "main_redis_secret_credentials" {
+  for_each  = var.add_redis_secret_manager_credentials ? local.credentials : {}
+  secret_id = "${var.secret_key_prefix}${each.key}"
+  labels    = var.init.labels
+  project   = var.init.app.project_id
+  replication {
+    user_managed {
+      replicas {
+        location = var.region
+      }
+    }
+  }
+}
+
+resource "google_secret_manager_secret_version" "main_redis_secret_credentials_version" {
+  for_each    = var.add_redis_secret_manager_credentials ? local.credentials : {}
+  secret      = google_secret_manager_secret.main_redis_secret_credentials[each.key].id
+  secret_data = each.value
 }
