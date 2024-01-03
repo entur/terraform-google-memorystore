@@ -48,6 +48,9 @@ locals {
   secret = {
     REDIS_PASSWORD = google_redis_instance.main.auth_string
   }
+}
+
+locals {
   credentials = merge(local.connection, local.secret)
 }
 
@@ -89,4 +92,8 @@ resource "google_secret_manager_secret_version" "main_redis_secret_credentials_v
   for_each    = var.add_redis_secret_manager_credentials ? local.credentials : {}
   secret      = google_secret_manager_secret.main_redis_secret_credentials[each.key].id
   secret_data = each.value
+
+  depends_on = [
+    google_secret_manager_secret.main_redis_secret_credentials
+  ]
 }
