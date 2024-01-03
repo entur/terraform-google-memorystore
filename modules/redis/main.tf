@@ -39,18 +39,21 @@ resource "google_redis_instance" "main" {
 }
 
 locals {
-  connection = {
-    REDIS_HOST      = google_redis_instance.main.host
-    REDIS_PORT      = google_redis_instance.main.port
+  primary_connection = {
+    REDIS_HOST = google_redis_instance.main.host
+    REDIS_PORT = google_redis_instance.main.port
+  }
+  read_connection = {
     REDIS_READ_HOST = google_redis_instance.main.read_endpoint
     REDIS_READ_PORT = google_redis_instance.main.read_endpoint_port
   }
   secret = {
     REDIS_PASSWORD = google_redis_instance.main.auth_string
   }
-}
 
+}
 locals {
+  connection  = var.enable_replicas ? merge(local.primary_connection, local.read_connection) : local.primary_connection
   credentials = merge(local.connection, local.secret)
 }
 
@@ -92,8 +95,4 @@ resource "google_secret_manager_secret_version" "main_redis_secret_credentials_v
   for_each    = var.add_redis_secret_manager_credentials ? local.credentials : {}
   secret      = google_secret_manager_secret.main_redis_secret_credentials[each.key].id
   secret_data = each.value
-
-  depends_on = [
-    google_redis_instance.main
-  ]
 }
