@@ -94,6 +94,6 @@ resource "google_secret_manager_secret_version" "main_redis_secret_credentials_v
   secret_data = each.value
 
   depends_on = [
-    google_secret_manager_secret.main_redis_secret_credentials
+    google_redis_instance.main
   ]
 }
