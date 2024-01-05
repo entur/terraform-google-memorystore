@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/entur/terraform-google-memorystore/compare/v0.2.4...v1.0.0) (2024-01-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* enable auth and update redis version ([#35](https://github.com/entur/terraform-google-memorystore/issues/35))
+
+### Features
+
+* enable auth and update redis version ([#35](https://github.com/entur/terraform-google-memorystore/issues/35)) ([738bb72](https://github.com/entur/terraform-google-memorystore/commit/738bb72b0624d8012c13ac33289cd95015dec4f3))
+
 ## [0.2.4](https://github.com/entur/terraform-google-memorystore/compare/v0.2.3...v0.2.4) (2023-07-03)
 
 
