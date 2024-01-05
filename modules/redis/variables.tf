@@ -106,6 +106,12 @@ variable "replica_count" {
   }
 }
 
+variable "enable_auth" {
+  description = "Enable authentication"
+  type        = bool
+  default     = false
+}
+
 variable "secret_key_prefix" {
   description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD and so on"
   type        = string

@@ -19,7 +19,7 @@ resource "google_redis_instance" "main" {
 
   connect_mode       = local.connect_mode
   authorized_network = var.init.networks.vpc_id
-  auth_enabled       = true
+  auth_enabled       = var.enable_auth
   read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
   replica_count      = var.enable_replicas ? var.replica_count : null
 
@@ -54,7 +54,7 @@ locals {
 }
 locals {
   connection  = var.enable_replicas ? merge(local.primary_connection, local.read_connection) : local.primary_connection
-  credentials = merge(local.connection, local.secret)
+  credentials = var.enable_auth ? merge(local.connection, local.secret) : local.connection
 }
 
 resource "kubernetes_config_map" "main_redis_connection" {
@@ -68,7 +68,7 @@ resource "kubernetes_config_map" "main_redis_connection" {
 }
 
 resource "kubernetes_secret" "main_redis_secret" {
-  count = var.create_kubernetes_resources ? 1 : 0
+  count = var.create_kubernetes_resources && var.enable_auth ? 1 : 0
   metadata {
     name      = "${local.kubernetes_name}-redis-secret"
     namespace = var.init.app.name
