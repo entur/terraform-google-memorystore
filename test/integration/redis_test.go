@@ -14,7 +14,6 @@ import (
 const exampleDir = "../../examples/minimal_test"
 
 func TestRedis(t *testing.T) {
-
 	const region = "europe-west1"
 	const memorySize int64 = 1
 
@@ -24,15 +23,17 @@ func TestRedis(t *testing.T) {
 
 	// asserts copied from https://github.com/terraform-google-modules/terraform-google-sql-db/blob/master/test/integration/postgresql-public/postgresql_public_test.go
 	cloudRedisT.DefineVerify(func(assert *assert.Assertions) {
-		instance_name := cloudRedisT.GetStringOutput("instance_name")
-		project_id := cloudRedisT.GetStringOutput("project_id")
-		redis := gcloud.Run(t, fmt.Sprintf("redis instances describe %s --project %s --region %s", instance_name, project_id, region))
+		instanceName := cloudRedisT.GetStringOutput("instance_name")
+		projectId := cloudRedisT.GetStringOutput("project_id")
+		redis := gcloud.Run(t, fmt.Sprintf("redis instances describe %s --project %s --region %s", instanceName, projectId, region))
 
 		assert.Contains(redis.Get("locationId").String(), region, "Memorystore instance's GCE region is valid")
-		assert.Contains(redis.Get("name").String(), instance_name, "Memomystore instance has a valid id")
+		assert.Contains(redis.Get("name").String(), instanceName, "Memomystore instance has a valid id")
 		assert.Equal(memorySize, redis.Get("memorySizeGb").Int(), "Memorystore instance has been allocated 1 GB of memory")
+		// Not applicable for current minimal_test
+		// assert.Equal(redis.Get("authEnabled").String(), "true", "Memoystore instance has auth enabled")
 		assert.Equal(redis.Get("connectMode").String(), "PRIVATE_SERVICE_ACCESS")
-		assert.Equal(redis.Get("redisVersion").String(), "REDIS_4_0")
+		assert.Equal(redis.Get("redisVersion").String(), "REDIS_7_0")
 	})
 
 	cloudRedisT.Test()

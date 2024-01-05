@@ -3,7 +3,7 @@ name: Terraform Integration Tests
 on:
   pull_request:
     paths:
-      - 'modules/postgresql/**'
+      - 'modules/redis/**'
       - 'test/**'
     branches:
       - master
