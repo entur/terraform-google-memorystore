@@ -9,7 +9,7 @@ module "init" {
 
 # ci: x-release-please-start-version
 module "redis" {
-  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v0.2.4"
+  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.0"
   init   = module.init
 }
 # ci: x-release-please-end
