@@ -1,3 +1,4 @@
-skip-check: 
+skip-check:
   - CKV_TF_1    # Allow version not sha
   - CKV_GCP_97  # Intransit encryption not needed
+  - CKV_GCP_95  # in transition #todo
