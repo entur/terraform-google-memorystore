@@ -17,7 +17,7 @@ resource "google_redis_instance" "main" {
   redis_version = var.redis_version
   redis_configs = var.redis_configs
 
-  connect_mode       = local.connect_mode
+  connect_mode       = var.vpc_id != null ? "DIRECT_PEERING" : local.connect_mode
   authorized_network = var.vpc_id != null ? var.vpc_id : var.init.networks.vpc_id
   auth_enabled       = var.enable_auth
   read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
