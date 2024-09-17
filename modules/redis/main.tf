@@ -1,6 +1,5 @@
 locals {
   generation      = format("%03d", var.generation)
-  connect_mode    = "PRIVATE_SERVICE_ACCESS"
   tier            = "STANDARD_HA"
   redis_shortname = var.name_override != null ? var.name_override : var.init.app.id
   redis_name      = "mem-${local.redis_shortname}-${var.init.environment}-${local.generation}"
@@ -17,7 +16,7 @@ resource "google_redis_instance" "main" {
   redis_version = var.redis_version
   redis_configs = var.redis_configs
 
-  connect_mode       = local.connect_mode
+  connect_mode       = var.vpc_id != null ? "DIRECT_PEERING" : "PRIVATE_SERVICE_ACCESS"
   authorized_network = var.vpc_id != null ? var.vpc_id : var.init.networks.vpc_id
   auth_enabled       = var.enable_auth
   read_replicas_mode = var.enable_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
