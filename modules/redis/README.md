@@ -71,6 +71,7 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | The region of the redis instance. | `string` | `"europe-west1"` | no |
 | <a name="input_replica_count"></a> [replica\_count](#input\_replica\_count) | The number [1-5] of replica nodes. Defaults to 1. | `number` | `1` | no |
 | <a name="input_secret_key_prefix"></a> [secret\_key\_prefix](#input\_secret\_key\_prefix) | Key prefix of secret. Ex. {secret\_key\_prefix: FIRST\_} would give keys FIRST\_REDIS\_HOST, FIRST\_REDIS\_PASSWORD and so on | `string` | `""` | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC network id, used for projects without a shared VPC. | `string` | `null` | no |
 
 ## Outputs
 
