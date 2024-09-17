@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/entur/terraform-google-memorystore/compare/v1.0.0...v1.0.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* be able to specify vpc network id ([#37](https://github.com/entur/terraform-google-memorystore/issues/37)) ([63f8049](https://github.com/entur/terraform-google-memorystore/commit/63f8049094bac3edd2608e4300523b69a4b98e2d))
+
 ## [1.0.0](https://github.com/entur/terraform-google-memorystore/compare/v0.2.4...v1.0.0) (2024-01-05)
 
 
