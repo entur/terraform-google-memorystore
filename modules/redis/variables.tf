@@ -129,3 +129,9 @@ variable "add_redis_secret_manager_credentials" {
   type        = bool
   default     = true
 }
+
+variable "vpc_id" {
+  description = "The VPC network id, used for projects without a shared VPC."
+  type        = string
+  default     = null
+}
