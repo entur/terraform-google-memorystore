@@ -4,7 +4,8 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
-
+# lock file for terraform state
+.terraform.lock.hcl
 # Crash log files
 crash.log
 
@@ -21,3 +22,4 @@ tfplan
 *.auto.tfvars
 
 results.sarif
+.DS_Store
