@@ -31,9 +31,9 @@ resource "google_compute_network" "redis_vpc_network" {
 }
 
 # Redis module
+# ci: x-release-please-start-version
 module "redis" {
-  #source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.2"
-  source                      = "../../modules/redis"
+  source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.2"
   init                        = module.init
   create_kubernetes_resources = false
   vpc_id                      = google_compute_network.redis_vpc_network.id
@@ -42,6 +42,7 @@ module "redis" {
     google_compute_network.redis_vpc_network
   ]
 }
+# ci: x-release-please-end
 
 # Create a internal address for the vpc access connector
 resource "google_compute_global_address" "redis_internal_vpc_address" {
