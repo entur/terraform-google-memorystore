@@ -26,12 +26,10 @@ func TestRedis(t *testing.T) {
 		instanceName := cloudRedisT.GetStringOutput("instance_name")
 		projectId := cloudRedisT.GetStringOutput("project_id")
 		redis := gcloud.Run(t, fmt.Sprintf("redis instances describe %s --project %s --region %s", instanceName, projectId, region))
-
 		assert.Contains(redis.Get("locationId").String(), region, "Memorystore instance's GCE region is valid")
 		assert.Contains(redis.Get("name").String(), instanceName, "Memomystore instance has a valid id")
 		assert.Equal(memorySize, redis.Get("memorySizeGb").Int(), "Memorystore instance has been allocated 1 GB of memory")
-		// Not applicable for current minimal_test
-		// assert.Equal(redis.Get("authEnabled").String(), "true", "Memoystore instance has auth enabled")
+		assert.Equal(redis.Get("authEnabled").String(), "true", "Memoystore instance has auth enabled")
 		assert.Equal(redis.Get("connectMode").String(), "PRIVATE_SERVICE_ACCESS")
 		assert.Equal(redis.Get("redisVersion").String(), "REDIS_7_0")
 	})

@@ -31,10 +31,10 @@ resource "google_compute_network" "redis_vpc_network" {
 }
 
 # Redis module
+# ci: x-release-please-start-version
 module "redis" {
   source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.2"
   init                        = module.init
-  enable_auth                 = true
   create_kubernetes_resources = false
   vpc_id                      = google_compute_network.redis_vpc_network.id
   depends_on = [
@@ -42,6 +42,7 @@ module "redis" {
     google_compute_network.redis_vpc_network
   ]
 }
+# ci: x-release-please-end
 
 # Create a internal address for the vpc access connector
 resource "google_compute_global_address" "redis_internal_vpc_address" {
@@ -65,3 +66,14 @@ resource "google_vpc_access_connector" "redis_access_vpc_connector" {
     google_compute_global_address.redis_internal_vpc_address
   ]
 }
+
+# if needed, you can grant the app engine service account access to the redis secrets
+# Grant read rights to the redis secrets to the app engine service account
+# resource "google_secret_manager_secret_iam_member" "redis-secrets-member" {
+#   for_each   = toset(module.redis.secret_manager_secret_ids)
+#   project    = module.init.app.project_id
+#   secret_id  = each.key
+#   role       = "roles/secretmanager.secretAccessor"
+#   member     = "serviceAccount:${module.init.app.project_id}@appspot.gserviceaccount.com"
+#   depends_on = [module.redis]
+# }

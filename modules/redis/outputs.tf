@@ -18,3 +18,7 @@ output "kubernetes_namespace" {
   description = "Name of the kubernetes namespace where the connection details configmap is deployed."
   value       = var.create_kubernetes_resources ? kubernetes_config_map.main_redis_connection[0].metadata[0].namespace : null
 }
+
+output "secret_manager_secret_ids" {
+  value = values(google_secret_manager_secret.main_redis_secret_credentials)[*].secret_id
+}
