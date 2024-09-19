@@ -60,7 +60,6 @@ No modules.
 | <a name="input_add_redis_secret_manager_credentials"></a> [add\_redis\_secret\_manager\_credentials](#input\_add\_redis\_secret\_manager\_credentials) | Set to false to not store redis credentials in secret manager | `bool` | `true` | no |
 | <a name="input_availability_type"></a> [availability\_type](#input\_availability\_type) | REGIONAL or ZONAL database. | `string` | `"REGIONAL"` | no |
 | <a name="input_create_kubernetes_resources"></a> [create\_kubernetes\_resources](#input\_create\_kubernetes\_resources) | Optionally disables creating k8s resources -redis-connection and -redis-secret. Can be used to avoid overwriting existing resources on database creation. | `bool` | `true` | no |
-| <a name="input_enable_auth"></a> [enable\_auth](#input\_enable\_auth) | Enable authentication | `bool` | `false` | no |
 | <a name="input_enable_replicas"></a> [enable\_replicas](#input\_enable\_replicas) | Enable read replicas | `bool` | `false` | no |
 | <a name="input_generation"></a> [generation](#input\_generation) | Generation of the redis instance. Starts at 1, ends at 999. Will be padded with leading zeros. | `number` | `1` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The day of the week (MONDAY-SUNDAY), and hour of the day (0-24) in UTC to perform database instance maintenance. This is the start time of the one hour maintinance window. | <pre>object({<br>    day  = string<br>    hour = number<br>  })</pre> | <pre>{<br>  "day": "TUESDAY",<br>  "hour": 0<br>}</pre> | no |
@@ -81,4 +80,5 @@ No modules.
 | <a name="output_instance"></a> [instance](#output\_instance) | The redis instance output, as described in https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/redis_instance. |
 | <a name="output_kubernetes_namespace"></a> [kubernetes\_namespace](#output\_kubernetes\_namespace) | Name of the kubernetes namespace where the connection details configmap is deployed. |
 | <a name="output_redis_password"></a> [redis\_password](#output\_redis\_password) | The auth password used to connect to the redis instance |
+| <a name="output_secret_manager_secret_ids"></a> [secret\_manager\_secret\_ids](#output\_secret\_manager\_secret\_ids) | n/a |
 <!-- END_TF_DOCS -->
