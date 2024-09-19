@@ -109,7 +109,7 @@ variable "replica_count" {
 variable "enable_auth" {
   description = "Enable authentication"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "secret_key_prefix" {
