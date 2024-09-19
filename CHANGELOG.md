@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/entur/terraform-google-memorystore/compare/v1.0.2...v2.0.0) (2024-09-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* Redis Authentication is now enforced ([#42](https://github.com/entur/terraform-google-memorystore/issues/42))
+
+### Bug Fixes
+
+* example doc [skip ci] ([#41](https://github.com/entur/terraform-google-memorystore/issues/41)) ([eec37c9](https://github.com/entur/terraform-google-memorystore/commit/eec37c9883d52a933fde6fcbda0d2ae75a79e46d))
+* Redis Authentication is now enforced ([#42](https://github.com/entur/terraform-google-memorystore/issues/42)) ([0199035](https://github.com/entur/terraform-google-memorystore/commit/019903501006ce89146ae3038b1c21b5a4e21453))
+
 ## [1.0.2](https://github.com/entur/terraform-google-memorystore/compare/v1.0.1...v1.0.2) (2024-09-17)
 
 

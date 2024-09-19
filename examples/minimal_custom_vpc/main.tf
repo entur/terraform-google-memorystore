@@ -33,7 +33,7 @@ resource "google_compute_network" "redis_vpc_network" {
 # Redis module
 # ci: x-release-please-start-version
 module "redis" {
-  source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.2"
+  source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2.0.0"
   init                        = module.init
   create_kubernetes_resources = false
   vpc_id                      = google_compute_network.redis_vpc_network.id
