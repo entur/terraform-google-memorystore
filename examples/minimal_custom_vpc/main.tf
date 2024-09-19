@@ -35,7 +35,6 @@ module "redis" {
   #source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v1.0.2"
   source                      = "../../modules/redis"
   init                        = module.init
-  enable_auth                 = true
   create_kubernetes_resources = false
   vpc_id                      = google_compute_network.redis_vpc_network.id
   depends_on = [
