@@ -4,7 +4,7 @@
 
 # init module
 module "init" {
-  source      = "github.com/entur/terraform-google-init//modules/init?ref=v1.0.0"
+  source      = "github.com/entur/terraform-google-init//modules/init?ref=v1"
   app_id      = "tfmodules"
   environment = "dev"
 }
@@ -33,7 +33,7 @@ resource "google_compute_network" "redis_vpc_network" {
 # Redis module
 # ci: x-release-please-start-version
 module "redis" {
-  source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2.0.0"
+  source                      = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2"
   init                        = module.init
   create_kubernetes_resources = false
   vpc_id                      = google_compute_network.redis_vpc_network.id
