@@ -1,4 +1,4 @@
-# Memorystore Redis Terraform Module #
+# Memorystore Redis Terraform Module
 
 Creates a Redis instance and creates the following Google Secret Manager secrets in your GCP project:
 
@@ -6,6 +6,15 @@ Creates a Redis instance and creates the following Google Secret Manager secrets
 REDIS_HOST
 REDIS_PORT
 REDIS_PASSWORD
+```
+
+## Usage
+
+```terraform
+module "redis" {
+  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2"
+  ...
+}
 ```
 
 To expose the secrets as environment variables in kubernetes, use our [common helm chart](https://github.com/entur/helm-charts/tree/main/charts/common) like this:
