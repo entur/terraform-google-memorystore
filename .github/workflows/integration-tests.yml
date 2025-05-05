@@ -1,17 +1,8 @@
 name: Terraform Integration Tests
 
+# This workflows requires secrets and needs to be run on workflow_dispatch
 on:
-  pull_request:
-    paths:
-      - "modules/redis/**"
-      - "test/**"
-    branches:
-      - main
-    types:
-      - opened
-      - synchronize
-      - ready_for_review
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   terratest_redis:
@@ -27,11 +18,11 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version: 1.19
+          go-version-file: "test/integration/go.mod"
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.8.5
+          terraform_version: 1.9.8
           terraform_wrapper: false
 
       - id: auth

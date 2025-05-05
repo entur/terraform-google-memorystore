@@ -1,0 +1,11 @@
+name: on-pr-approved
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  run-integration-tests:
+    if: github.event.review.state == 'approved'
+    uses: ./.github/workflows/integration-tests.yml
+    secrets: inherit
