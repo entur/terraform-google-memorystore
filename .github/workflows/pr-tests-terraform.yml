@@ -10,7 +10,19 @@ on:
       - ready_for_review
 
 jobs:
-  tf-tests:
-    uses: entur/gh-workflows/.github/workflows/pr-tests-terraform.yml@main
-    with:
-      module_dirs: '["./modules/redis"]'
+  tf-docs:
+    name: Terraform documentation
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@aeae0038ed47a547e0c0fca5c059d3335f48fb25 # v1.3.0
+        with:
+          working-dir: ./modules/redis
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
