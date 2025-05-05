@@ -12,16 +12,14 @@ A Redis module that uses the [init module](https://github.com/entur/terraform-go
 
 ## Getting started
 
-<!-- ci: x-release-please-start-version -->
 ### Example using the latest release
 
-```
+```terraform
 module "redis" {
-  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2.0.0"
+  source = "github.com/entur/terraform-google-memorystore//modules/redis?ref=v2"
   ...
 }
 ```
-<!-- ci: x-release-please-end -->
 
 See the `README.md` under each module's subfolder for a list of supported inputs and outputs. For examples showing how they're implemented, check the [examples](examples) subfolder.
 
@@ -56,7 +54,7 @@ Versioning and release workflows are automated using Release Please. See GitHubÂ
 
 ### Tests
 
-We are using the blueprint-test module for testing. https://pkg.go.dev/github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test
+We are using the blueprint-test module for testing. <https://pkg.go.dev/github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test>
 
 #### Local testing
 
