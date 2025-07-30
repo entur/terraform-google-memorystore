@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1](https://github.com/entur/terraform-google-memorystore/compare/v2.0.0...v2.0.1) (2025-07-30)
+
+
+### Bug Fixes
+
+* [skip ci] common dependabot config ([#46](https://github.com/entur/terraform-google-memorystore/issues/46)) ([199c91f](https://github.com/entur/terraform-google-memorystore/commit/199c91f11e857fd38e59275a40e826d7eb3bd868))
+* switch to gha-meta and new release ([#50](https://github.com/entur/terraform-google-memorystore/issues/50)) ([1a32ad9](https://github.com/entur/terraform-google-memorystore/commit/1a32ad956b99833afde0be77e753e054e2569d2f))
+
 ## [2.0.0](https://github.com/entur/terraform-google-memorystore/compare/v1.0.2...v2.0.0) (2024-09-19)
 
 
