@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/entur/terraform-google-memorystore/compare/v2.0.1...v2.0.2) (2025-12-10)
+
+
+### Bug Fixes
+
+* lock k8s provider to only upgrade to minor/patch versions ([#67](https://github.com/entur/terraform-google-memorystore/issues/67)) ([dc3bfac](https://github.com/entur/terraform-google-memorystore/commit/dc3bfac53a1cc7e62b980d726d2dd850b35f36b2))
+
 ## [2.0.1](https://github.com/entur/terraform-google-memorystore/compare/v2.0.0...v2.0.1) (2025-07-30)
 
 
