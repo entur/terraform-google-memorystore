@@ -85,12 +85,10 @@ variable "engine_version" {
   }
 }
 
-# TODO: Finne sane defaults på disse.
 variable "engine_configs" {
   description = "The engine configuration flags."
   type        = map(string)
   default = {
-    activedefrag     = "yes"
     maxmemory-policy = "allkeys-lfu"
   }
 }
