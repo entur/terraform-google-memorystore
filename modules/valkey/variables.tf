@@ -18,19 +18,19 @@ variable "init" {
 }
 
 variable "name_override" {
-  description = "Set to override the default redis name. Follows contentions; setting it to 'foo' in dev will result in the redis being named 'mem-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map and secret."
+  description = "Set to override the default memorystore name. Follows contentions; setting it to 'foo' in dev will result in the memorystore being named 'mem-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map and secret."
   type        = string
   default     = null
 }
 
 variable "region" {
-  description = "The region of the redis instance."
+  description = "The region of the memorystore instance."
   type        = string
   default     = "europe-west1"
 }
 
 variable "generation" {
-  description = "Generation of the redis instance. Starts at 1, ends at 999. Will be padded with leading zeros."
+  description = "Generation of the memorystore instance. Starts at 1, ends at 999. Will be padded with leading zeros."
   type        = number
   default     = 1
 
@@ -110,8 +110,8 @@ variable "secret_key_prefix" {
   default     = ""
 }
 
-variable "add_memorystore_secret_manager_credentials" {
-  description = "Set to false to not store memorystore credentials in secret manager"
+variable "add_valkey_secret_manager_credentials" {
+  description = "Set to false to not store valkey credentials in secret manager"
   type        = bool
   default     = true
 }
