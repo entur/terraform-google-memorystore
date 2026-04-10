@@ -64,6 +64,25 @@ variable "maintenance_window" {
 #   default     = "REGIONAL"
 # }
 
+# skille på dev og prod miljø
+# TODO: single zone/multi zone skille mellom
+# flagge single/multizone
+# finne hvordan dette spiller med clustering: shards/replicas/single zone/region
+# clustering mode:enabled need shards (have possibility to increase number of shards)
+# clustering mode: not enabled, 1 shard
+# variable mode
+# variable shard_count
+# variable zone
+#
+
+
+# TODO: tls er default (ikke noe utviklere skal ha forhold til må finne parametre)
+#
+# TODO: service connection policy - how to implement (likhet med redis)
+# TODO: iam auth
+#
+
+
 # TODO: Hvordan konfigurerer vi denne?
 # TODO: Fix validation to only allow valid node types
 variable "node_type" {
