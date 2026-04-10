@@ -4,17 +4,45 @@ locals {
   valkey_name      = "mem-${local.valkey_shortname}-${var.init.environment}-${local.generation}"
 }
 
+resource "google_network_connectivity_service_connection_policy" "valkey_connection_policy" {
+  name          = "valkey-service-connection-policy"
+  location      = var.region
+  service_class = "gcp-memorystore"
+  description   = "Service connection policy for Valkey Memorystore instance"
+  network       = google_compute_network.producer_net.id
+  psc_config {
+    subnetworks = [google_compute_subnetwork.producer_subnet.id]
+  }
+}
+
+resource "google_compute_subnetwork" "producer_subnet" {
+  name = "producer-subnet"
+  # TODO: Mulig dette må håndteres i en local basert på env og generation, for å unngå kollisjoner mellom env og generasjoner.
+  ip_cidr_range = var.compute_subnetwork_subnet_cidr
+  region        = var.region
+  network       = google_compute_network.producer_net.id
+}
+
+resource "google_compute_network" "producer_net" {
+  name                    = "producer-network"
+  auto_create_subnetworks = false
+}
+
+data "google_project" "project" {
+}
+
+
 locals {
   primary_connection = {
-    VALKEY_HOST = google_memorystore_instance.main.host
-    VALKEY_PORT = google_memorystore_instance.main.port
+    VALKEY_HOST = "" # TODO: This object has no argument, nested block, or exported attribute named "host".
+    VALKEY_PORT = "" # TODO: This object has no argument, nested block, or exported attribute named "port".
   }
   read_connection = {
-    VALKEY_READ_HOST = google_memorystore_instance.main.read_endpoint
-    VALKEY_READ_PORT = google_memorystore_instance.main.read_endpoint_port
+    VALKEY_READ_HOST = "" # TODO: This object has no argument, nested block, or exported attribute named "read_endpoint".
+    VALKEY_READ_PORT = "" # TODO: This object has no argument, nested block, or exported attribute named "read_endpoint_host".
   }
   secret = {
-    VALKEY_PASSWORD = google_memorystore_instance.main.auth_string
+    VALKEY_PASSWORD = "" # TODO: This object has no argument, nested block, or exported attribute named "auth_string".
   }
 }
 
