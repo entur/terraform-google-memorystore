@@ -64,16 +64,38 @@ variable "maintenance_window" {
 #   default     = "REGIONAL"
 # }
 
-# skille på dev og prod miljø
+# skille på dev og prod miljø i precondition til ressursen
 # TODO: single zone/multi zone skille mellom
 # flagge single/multizone
 # finne hvordan dette spiller med clustering: shards/replicas/single zone/region
 # clustering mode:enabled need shards (have possibility to increase number of shards)
 # clustering mode: not enabled, 1 shard
-# variable mode
-# variable shard_count
+
 # variable zone
 #
+#
+# TODO: Sjekke korleis clustring/replicas fungerer i valkey, og om det er noe vi må konfigurere her.
+variable "replica_count" {
+  description = "The number [0-5] of replica nodes. Defaults to 0."
+  type        = number
+  default     = 0
+  validation {
+    condition     = var.replica_count >= 0 && var.replica_count <= 5
+    error_message = "Memory size must be a whole number, between 0 and 5 inclusive."
+  }
+}
+
+variable "shard_count" {
+  default = 1
+}
+
+variable "mode" {
+  default = "CLUSTER"
+  validation {
+    condition     = contains(["CLUSTER", "CLUSTER_DISABLED"], var.mode)
+    error_message = "Mode must be either CLUSTER og CLUSTER_DISABLED"
+  }
+}
 
 
 # TODO: tls er default (ikke noe utviklere skal ha forhold til må finne parametre)
@@ -89,18 +111,16 @@ variable "compute_subnetwork_subnet_cidr" {
   }
 }
 
-# TODO: iam auth
+# TODO: iam auth lagt til (ikke noe utviklerne skal ha forhold til)
 #
 
-
-# TODO: Hvordan konfigurerer vi denne?
-# TODO: Fix validation to only allow valid node types
+# TODO: should they be allowed to use all node-types?
 variable "node_type" {
   description = "The node type of the valkey instance. Options are STANDARD_SMALL, SHARED_CORE_NANO, HIGHMEM_MEDIUM, HIGHMEM_XLARGE "
   default     = "STANDARD_SMALL"
   validation {
-    condition     = var.node_type == "STANDARD_SMALL" || var.node_type == "BASIC"
-    error_message = "Node type must be either STANDARD_HA or BASIC."
+    condition     = contains(["STANDARD_SMALL", "SHARED_CORE_NANO", "HIGHMEM_MEDIUM", "HIGHMEM_XLARGE"], var.node_type)
+    error_message = "Node type must be either STANDARD_SMALL, SHARED_CORE_NANO, HIGHMEM_MEDIUM or HIGHMEM_XLARGE."
   }
 }
 
@@ -122,16 +142,6 @@ variable "engine_configs" {
   }
 }
 
-# TODO: Sjekke korleis clustring/replicas fungerer i valkey, og om det er noe vi må konfigurere her.
-variable "replica_count" {
-  description = "The number [0-5] of replica nodes. Defaults to 0."
-  type        = number
-  default     = 0
-  validation {
-    condition     = var.replica_count >= 0 && var.replica_count <= 5
-    error_message = "Memory size must be a whole number, between 0 and 5 inclusive."
-  }
-}
 
 variable "secret_key_prefix" {
   description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD. Default is instance name"
