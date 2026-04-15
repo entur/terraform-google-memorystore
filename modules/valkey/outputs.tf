@@ -3,11 +3,11 @@ output "init" {
   value       = var.init
 }
 
-output "memorystore_password" {
-  description = "The auth password used to connect to the Valkey instance"
-  sensitive   = true
-  value       = google_memorystore_instance.main.auth_string
-}
+# output "memorystore_password" {
+#   description = "The auth password used to connect to the Valkey instance"
+#   sensitive   = true
+#   value       = google_memorystore_instance.main.auth_string
+# }
 
 output "instance" {
   description = "The memorystore instance output, as described in https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/memorystore_instance."
@@ -16,4 +16,8 @@ output "instance" {
 
 output "secret_manager_secret_ids" {
   value = values(google_secret_manager_secret.main_valkey_secret_credentials)[*].secret_id
+}
+
+output "instance_connection_info" {
+  value = google_memorystore_instance.main.endpoints[*].connections[*].psc_auto_connection[*].psc_connection_id
 }
