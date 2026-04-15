@@ -31,6 +31,41 @@ resource "google_compute_network" "producer_net" {
 data "google_project" "project" {
 }
 
+resource "google_memorystore_instance" "instance-basic" {
+  instance_id = local.valkey_name
+
+  shard_count   = var.shard_count
+  replica_count = var.replica_count
+  # TODO: zone_distribution_config - depends on ha setup
+  # TODO: mode - depends on ha/replica setup
+
+  node_type      = var.node_type
+  engine_version = var.engine_version
+  engine_configs = var.engine_configs
+
+  labels = var.init.labels
+  desired_auto_created_endpoints {
+    network    = var.init.networks.vpc_id
+    project_id = var.init.networks.project_id
+  }
+  location                    = var.region
+  deletion_protection_enabled = false # TODO: Bruk flagg i variables for å enable/disable dette. Default true for prd, default false for non-prod.
+  maintenance_policy {
+    weekly_maintenance_window {
+      day = var.maintenance_window.day
+      start_time {
+        hours   = var.maintenance_window.hour
+        minutes = 0
+        seconds = 0
+        nanos   = 0
+      }
+    }
+  }
+  # TODO: add authorization_mode
+  # TODO: add transit_encryption_mode
+
+}
+
 
 locals {
   primary_connection = {
