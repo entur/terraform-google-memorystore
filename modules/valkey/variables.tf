@@ -104,7 +104,7 @@ variable "mode" {
 variable "compute_subnetwork_subnet_cidr" {
   description = "The CIDR range of the producer subnetwork. Must be a /24 or smaller subnet, in CIDR notation (e.g. 10.0.0.0/24)."
   type        = string
-  default     = "0.0.0.0/24" # TODO: Finne subnet cidr for dette. Kan hende det må settes i local blokk basert på env og generation, for å unngå kollisjoner mellom env og generasjoner.
+  default     = "192.168.0.0/24" # TODO: Finne subnet cidr for dette. Kan hende det må settes i local blokk basert på env og generation, for å unngå kollisjoner mellom env og generasjoner.
   validation {
     condition     = can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}/([0-9]|[1-2][0-9]|3[0-2])$", var.compute_subnetwork_subnet_cidr)) && can(cidrsubnet(var.compute_subnetwork_subnet_cidr, 8, 8))
     error_message = "The CIDR range must be in the form x.x.x.x/y, where x is a number from 0 to 255 and y is a number from 0 to 32. The subnet must also be a /24 or smaller."
