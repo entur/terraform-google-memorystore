@@ -73,6 +73,18 @@ variable "maintenance_window" {
 
 # variable zone
 #
+variable "zone_availability" {
+  default = SINGLE_ZONE
+  
+}
+#variable "zone_distribution_config" {
+#   config = [
+#    {
+#      "mode" = "MULTI_ZONE"
+#      "zone" = ""
+#    },
+#  ]
+#}
 #
 # TODO: Sjekke korleis clustring/replicas fungerer i valkey, og om det er noe vi må konfigurere her.
 variable "replica_count" {
@@ -87,6 +99,10 @@ variable "replica_count" {
 
 variable "shard_count" {
   default = 1
+  validation {
+    condition = local.is_production == true && var.shard_count <=1
+    error_message = "Shard count must be more than 1 for prod environments"
+  }
 }
 
 variable "mode" {
@@ -141,7 +157,6 @@ variable "engine_configs" {
     maxmemory-policy = "allkeys-lfu"
   }
 }
-
 
 variable "secret_key_prefix" {
   description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD. Default is instance name"

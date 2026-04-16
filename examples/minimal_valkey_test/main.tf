@@ -22,4 +22,6 @@ module "valkey" {
   source     = "../../modules/valkey"
   init       = module.init
   generation = random_integer.random_revision_generation.result
+  replica_count = 1
+  shard_count = 2
 }
