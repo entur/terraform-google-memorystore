@@ -107,7 +107,7 @@ variable "engine_version" {
   description = "The engine version in the form VALKEY_<major>_<minor>."
   type        = string
   validation {
-    condition     = can(regex("^VALKEY_.*", var.engine_version))
+    condition     = can(regex("^VALKEY_\\d+_\\d+", var.engine_version))
     error_message = "Supports Valkey version in the form VALKEY_7_2."
   }
 }
