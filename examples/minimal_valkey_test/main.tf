@@ -19,10 +19,10 @@ module "valkey" {
   # module from GitHub, the 'source' parameter must refer to it's public location.
   # See README.md for instructions.
   # source     = "github.com/entur/terraform-google-memorystore//modules/valkey?ref=vVERSION"
-  source     = "../../modules/valkey"
-  init       = module.init
-  generation = random_integer.random_revision_generation.result
+  source        = "../../modules/valkey"
+  init          = module.init
+  generation    = random_integer.random_revision_generation.result
   replica_count = 1
-  shard_count = 2
-  zone_availability = "ZONAL"
+  shard_count   = 2
+  engine_version = "VALKEY_8_0"
 }

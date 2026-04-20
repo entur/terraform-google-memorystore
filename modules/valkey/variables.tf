@@ -17,6 +17,16 @@ variable "init" {
   })
 }
 
+locals {
+  is_production = var.init.is_production
+}
+
+variable "deletion_protection_enabled" {
+  description = "Whether deletion protection is enabled. Defaults to True in production, false otherwise."
+  type        = bool
+  default     = null
+}
+
 variable "name_override" {
   description = "Set to override the default memorystore name. Follows contentions; setting it to 'foo' in dev will result in the memorystore being named 'mem-foo-dev-001' (<prefix>-<var.name_override>-<env>-<generation>). Is also applied to the name of the Kubernetes config map and secret."
   type        = string
@@ -40,7 +50,6 @@ variable "generation" {
   }
 }
 
-# TODO: Dobbeltskjekke
 variable "maintenance_window" {
   description = "The day of the week (MONDAY-SUNDAY), and hour of the day (0-24) in UTC to perform database instance maintenance. This is the start time of the one hour maintenance window."
   type = object({
@@ -49,7 +58,7 @@ variable "maintenance_window" {
   })
   default = {
     day  = "TUESDAY"
-    hour = 0
+    hour = 2
   }
   validation {
     condition     = can(regex("^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)$", var.maintenance_window.day)) && var.maintenance_window.hour >= 0 && var.maintenance_window.hour <= 23
@@ -57,60 +66,34 @@ variable "maintenance_window" {
   }
 }
 
-
 variable "replica_count" {
-  description = "The number [0-5] of replica nodes. Defaults to 0."
+  description = "The number [0-5] of replica nodes. Defaults to 0. 0 means no read replicas, just a primary."
   type        = number
   default     = 0
   validation {
     condition     = var.replica_count >= 0 && var.replica_count <= 5
     error_message = "Memory size must be a whole number, between 0 and 5 inclusive."
   }
-  validation {
-    condition = local.is_production == true && var.replica_count <=1
-    error_message = "Replica count must be more than 1 for prod environments"
-  }
 }
 
 variable "shard_count" {
+  description = "Number of shards, more shards is scaling the instance horizontally out. "
   default = 1
   validation {
-    condition = local.is_production == true && var.shard_count <=1
-    error_message = "Shard count must be more than 1 for prod environments"
+    condition = var.shard_count >= 0 && var.shard_count <=5
+    error_message = "Shard count must be between 0 and 5"
   }
 }
 
-# TODO: Should developers have this option? Should we allow CLUSTER_DISABLED in prod?
 variable "mode" {
+  description = "Cluster mode allows you to partition data between shards."
   default = "CLUSTER"
   validation {
     condition     = contains(["CLUSTER", "CLUSTER_DISABLED"], var.mode)
     error_message = "Mode must be either CLUSTER og CLUSTER_DISABLED"
   }  
-  validation {
-    condition     = local.is_production == true && var.mode != "CLUSTER"
-    error_message = "Mode must be either CLUSTER for prod environments"
-  }
 }
 
-
-# TODO: tls er default (ikke noe utviklere skal ha forhold til må finne parametre)
-#
-# TODO: service connection policy - how to implement (likhet med redis)
-variable "compute_subnetwork_subnet_cidr" {
-  description = "The CIDR range of the producer subnetwork. Must be a /24 or smaller subnet, in CIDR notation (e.g. 10.0.0.0/24)."
-  type        = string
-  default     = "192.168.0.0/24" # TODO: Finne subnet cidr for dette. Kan hende det må settes i local blokk basert på env og generation, for å unngå kollisjoner mellom env og generasjoner.
-  validation {
-    condition     = can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}/([0-9]|[1-2][0-9]|3[0-2])$", var.compute_subnetwork_subnet_cidr)) && can(cidrsubnet(var.compute_subnetwork_subnet_cidr, 8, 8))
-    error_message = "The CIDR range must be in the form x.x.x.x/y, where x is a number from 0 to 255 and y is a number from 0 to 32. The subnet must also be a /24 or smaller."
-  }
-}
-
-# TODO: iam auth lagt til (ikke noe utviklerne skal ha forhold til)
-#
-
-# TODO: should they be allowed to use all node-types?
 variable "node_type" {
   description = "The node type of the valkey instance. Options are STANDARD_SMALL, SHARED_CORE_NANO, HIGHMEM_MEDIUM, HIGHMEM_XLARGE "
   default     = "STANDARD_SMALL"
@@ -123,10 +106,9 @@ variable "node_type" {
 variable "engine_version" {
   description = "The engine version in the form VALKEY_<major>_<minor>."
   type        = string
-  default     = "VALKEY_7_2"
   validation {
-    condition     = can(regex("^VALKEY_[7-9]_[0-9X]$", var.engine_version))
-    error_message = "Supports Valkey version 7.2, 8.0 or 9.0, in the form VALKEY_7_2."
+    condition     = can(regex("^VALKEY_.*", var.engine_version))
+    error_message = "Supports Valkey version in the form VALKEY_7_2."
   }
 }
 
@@ -142,12 +124,6 @@ variable "secret_key_prefix" {
   description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD. Default is instance name"
   type        = string
   default     = ""
-}
-
-variable "add_valkey_secret_manager_credentials" {
-  description = "Set to false to not store valkey credentials in secret manager"
-  type        = bool
-  default     = true
 }
 
 variable "vpc_id" {
