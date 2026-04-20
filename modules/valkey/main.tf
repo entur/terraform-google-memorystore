@@ -37,11 +37,13 @@ resource "google_compute_network" "producer_net" {
 resource "google_memorystore_instance" "main" {
   instance_id = local.valkey_name
   project     = var.init.app.project_id
-
+  mode = var.mode
   shard_count   = var.shard_count
   replica_count = var.replica_count
-  # TODO: zone_distribution_config - depends on ha setup
-  # TODO: mode - depends on ha/replica setup
+  zone_distribution_config {
+    mode                       = "MULTI_ZONE"
+    zone                       = ""
+  }  
 
   node_type      = var.node_type
   engine_version = var.engine_version

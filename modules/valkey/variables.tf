@@ -57,36 +57,7 @@ variable "maintenance_window" {
   }
 }
 
-# TODO: Vi skal bare ha REGIONAL.
-# variable "availability_type" {
-#   description = "REGIONAL or ZONAL database."
-#   type        = string
-#   default     = "REGIONAL"
-# }
 
-# skille på dev og prod miljø i precondition til ressursen
-# TODO: single zone/multi zone skille mellom
-# flagge single/multizone
-# finne hvordan dette spiller med clustering: shards/replicas/single zone/region
-# clustering mode:enabled need shards (have possibility to increase number of shards)
-# clustering mode: not enabled, 1 shard
-
-# variable zone
-#
-variable "zone_availability" {
-  default = SINGLE_ZONE
-  
-}
-#variable "zone_distribution_config" {
-#   config = [
-#    {
-#      "mode" = "MULTI_ZONE"
-#      "zone" = ""
-#    },
-#  ]
-#}
-#
-# TODO: Sjekke korleis clustring/replicas fungerer i valkey, og om det er noe vi må konfigurere her.
 variable "replica_count" {
   description = "The number [0-5] of replica nodes. Defaults to 0."
   type        = number
@@ -94,6 +65,10 @@ variable "replica_count" {
   validation {
     condition     = var.replica_count >= 0 && var.replica_count <= 5
     error_message = "Memory size must be a whole number, between 0 and 5 inclusive."
+  }
+  validation {
+    condition = local.is_production == true && var.replica_count <=1
+    error_message = "Replica count must be more than 1 for prod environments"
   }
 }
 
@@ -105,11 +80,16 @@ variable "shard_count" {
   }
 }
 
+# TODO: Should developers have this option? Should we allow CLUSTER_DISABLED in prod?
 variable "mode" {
   default = "CLUSTER"
   validation {
     condition     = contains(["CLUSTER", "CLUSTER_DISABLED"], var.mode)
     error_message = "Mode must be either CLUSTER og CLUSTER_DISABLED"
+  }  
+  validation {
+    condition     = local.is_production == true && var.mode != "CLUSTER"
+    error_message = "Mode must be either CLUSTER for prod environments"
   }
 }
 

@@ -24,4 +24,5 @@ module "valkey" {
   generation = random_integer.random_revision_generation.result
   replica_count = 1
   shard_count = 2
+  zone_availability = "ZONAL"
 }
