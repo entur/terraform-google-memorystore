@@ -3,7 +3,9 @@
 Creates a Valkey instance and creates the following Google Secret Manager secrets in your GCP project:
 
 ```bash
-
+VALKEY_HOST
+VALKEY_PORT
+CA
 ```
 
 ## Usage
@@ -24,8 +26,11 @@ common:
   .
   secrets:
     valkey-credentials:
+    - VALKEY_HOST
+    - VALKEY_PORT
+    - CA
 ```
 
 <!-- BEGIN_TF_DOCS -->
 
-!-- END_TF_DOCS -->
+<!-- END_TF_DOCS -->
