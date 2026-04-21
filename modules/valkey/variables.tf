@@ -17,10 +17,6 @@ variable "init" {
   })
 }
 
-locals {
-  is_production = var.init.is_production
-}
-
 variable "deletion_protection_enabled" {
   description = "Whether deletion protection is enabled. Defaults to True in production, false otherwise."
   type        = bool
@@ -78,24 +74,27 @@ variable "replica_count" {
 
 variable "shard_count" {
   description = "Number of shards, more shards is scaling the instance horizontally out. "
-  default = 1
+  type        = number
+  default     = 1
   validation {
-    condition = var.shard_count >= 0 && var.shard_count <=5
+    condition     = var.shard_count >= 0 && var.shard_count <= 5
     error_message = "Shard count must be between 0 and 5"
   }
 }
 
 variable "mode" {
   description = "Cluster mode allows you to partition data between shards."
-  default = "CLUSTER"
+  type        = string
+  default     = "CLUSTER"
   validation {
     condition     = contains(["CLUSTER", "CLUSTER_DISABLED"], var.mode)
     error_message = "Mode must be either CLUSTER og CLUSTER_DISABLED"
-  }  
+  }
 }
 
 variable "node_type" {
-  description = "The node type of the valkey instance. Options are STANDARD_SMALL, SHARED_CORE_NANO, HIGHMEM_MEDIUM, HIGHMEM_XLARGE "
+  description = "The node type of the valkey instance. Options are STANDARD_SMALL, SHARED_CORE_NANO, HIGHMEM_MEDIUM, HIGHMEM_XLARGE"
+  type        = string
   default     = "STANDARD_SMALL"
   validation {
     condition     = contains(["STANDARD_SMALL", "SHARED_CORE_NANO", "HIGHMEM_MEDIUM", "HIGHMEM_XLARGE"], var.node_type)
@@ -124,10 +123,4 @@ variable "secret_key_prefix" {
   description = "Key prefix of secret. Ex. {secret_key_prefix: FIRST_} would give keys FIRST_REDIS_HOST, FIRST_REDIS_PASSWORD. Default is instance name"
   type        = string
   default     = ""
-}
-
-variable "vpc_id" {
-  description = "The VPC network id, used for projects without a shared VPC."
-  type        = string
-  default     = null
 }
