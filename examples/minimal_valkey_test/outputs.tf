@@ -3,6 +3,11 @@ output "instance_name" {
   value       = module.valkey.instance.name
 }
 
+output "instance_id" {
+  description = "The short Valkey instance ID, used with gcloud."
+  value       = module.valkey.instance.instance_id
+}
+
 output "project_id" {
   description = "Project ID"
   value       = module.init.app.project_id
