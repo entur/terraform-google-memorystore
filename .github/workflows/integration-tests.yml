@@ -20,7 +20,7 @@ jobs:
         with:
           go-version-file: "test/integration/go.mod"
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
         with:
           terraform_version: 1.9.8
           terraform_wrapper: false
@@ -34,7 +34,7 @@ jobs:
           gcp_service_account: ${{ vars.SERVICE_ACCOUNT }}
 
       - name: Kubernetes Auth
-        uses: entur/gha-meta/.github/actions/k8s-auth@v1
+        uses: entur/gha-meta/.github/actions/k8s-auth@v1 # NOSONAR
         with:
           environment: dev
 
@@ -61,21 +61,21 @@ jobs:
         with:
           go-version-file: "test/integration/go.mod"
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
         with:
           terraform_version: 1.9.8
           terraform_wrapper: false
 
       - id: auth
         name: Cloud Auth
-        uses: entur/gha-meta/.github/actions/cloud-auth@v1
+        uses: entur/gha-meta/.github/actions/cloud-auth@v1 # NOSONAR
         with:
           environment: dev
           gcp_workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
           gcp_service_account: ${{ vars.SERVICE_ACCOUNT }}
 
       - name: Kubernetes Auth
-        uses: entur/gha-meta/.github/actions/k8s-auth@v1
+        uses: entur/gha-meta/.github/actions/k8s-auth@v1 # NOSONAR
         with:
           environment: dev
 
