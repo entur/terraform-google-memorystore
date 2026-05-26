@@ -10,8 +10,8 @@ module "init" {
   # make sure to use the latest release of the init module, found here:
   # https://github.com/entur/terraform-google-init/releases
   source      = "github.com/entur/terraform-google-init//modules/init?ref=v1.1.1"
-  app_id      = "rocketlnch"
-  environment = "sbx"
+  app_id      = "tfmodules"
+  environment = "dev"
 }
 
 module "valkey" {
