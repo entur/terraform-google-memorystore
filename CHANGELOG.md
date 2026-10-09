@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.3](https://github.com/entur/terraform-google-memorystore/compare/v2.0.2...v2.0.3) (2026-10-09)
+
+
+### Features
+
+* Adds a new module for Valkey memorystore ([#75](https://github.com/entur/terraform-google-memorystore/issues/75)) ([086c2ac](https://github.com/entur/terraform-google-memorystore/commit/086c2ac7ec5a652f99c21a166facc64e9d5fa72f))
+
 ## [2.0.2](https://github.com/entur/terraform-google-memorystore/compare/v2.0.1...v2.0.2) (2025-12-10)
 
 
