@@ -36,11 +36,11 @@ variable "generation" {
 
   validation {
     condition     = var.generation < 1000 && var.generation > 0
-    error_message = "Generation must be bewteen [1,999]."
+    error_message = "Generation must be between [1,999]."
   }
 }
 variable "maintenance_window" {
-  description = "The day of the week (MONDAY-SUNDAY), and hour of the day (0-24) in UTC to perform database instance maintenance. This is the start time of the one hour maintinance window."
+  description = "The day of the week (MONDAY-SUNDAY), and hour of the day (0-24) in UTC to perform database instance maintenance. This is the start time of the one hour maintenance window."
   type = object({
     day  = string
     hour = number
@@ -51,7 +51,7 @@ variable "maintenance_window" {
   }
   validation {
     condition     = can(regex("^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)$", var.maintenance_window.day)) && var.maintenance_window.hour >= 0 && var.maintenance_window.hour <= 23
-    error_message = "Day of the week must be the capitalized day of the weeek (MONDAY-SUNDAY), and hour must be from 0 to 23."
+    error_message = "Day of the week must be the capitalized day of the week (MONDAY-SUNDAY), and hour must be from 0 to 23."
   }
 }
 
@@ -62,7 +62,7 @@ variable "availability_type" {
 }
 
 variable "memory_size_gb" {
-  description = "Allocated memory capasitiy for the instance in GB."
+  description = "Allocated memory capacity for the instance in GB."
   type        = number
   default     = 1
   validation {
